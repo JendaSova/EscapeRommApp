@@ -81,7 +81,13 @@ fun NavGraph(
 
         composable(Routes.LEADERBOARD) {
             onShakeCallback {}
-            LeaderboardScreen(onBack = { navController.popBackStack() })
+            LeaderboardScreen(
+                onBack = {
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.HOME) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

@@ -21,6 +21,7 @@ fun ResultScreen(
 ) {
     val viewModel: ResultViewModel = koinViewModel()
     var showDialog by remember { mutableStateOf(true) }
+    var resultSaved by remember { mutableStateOf(false) }
     var playerName by remember { mutableStateOf("") }
 
     val rating = when {
@@ -31,7 +32,7 @@ fun ResultScreen(
     }
     val timeFormatted = "%02d:%02d".format(timeUsed / 60, timeUsed % 60)
 
-    if (showDialog) {
+    if (showDialog && !resultSaved) {
         Dialog(onDismissRequest = {}) {
             Card(shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(24.dp),
@@ -49,6 +50,7 @@ fun ResultScreen(
                         onClick = {
                             if (playerName.isNotBlank()) {
                                 viewModel.saveResult(playerName, roomName, score, timeUsed, hintsUsed)
+                                resultSaved = true
                                 showDialog = false
                             }
                         },
